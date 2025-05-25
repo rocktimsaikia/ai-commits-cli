@@ -1,27 +1,25 @@
-# AICommits CLI
+# AICommits
 
 [![NPM Version](https://img.shields.io/npm/v/ai-commits-cli)](https://www.npmjs.com/package/ai-commits-cli)
 
 > AI-powered git commit message generator in your terminal.
 
-AICommits leverages OpenAI to automatically generate meaningful commit messages based on your code changes. Stop wasting time writing commit messages and let AI do it for you.
-
 ## Features
 
-- 🤖 AI-generated commit messages based on your code changes
-- 📋 Automatically copies the selected commit message to clipboard
-- 🔄 Generate multiple commit message options
-- 📝 Support for conventional commit format
-- 🔖 Smart branch name prefixing (extracts Jira/Linear IDs)
-- ⚙️ Highly configurable
+— AI-generated commit messages based on your code changes \
+— Automatically copies the selected commit message to clipboard \
+— Generate multiple commit message options \
+— Support for conventional commit format \
+— Smart branch name prefixing (extracts Jira/Linear IDs) \
+— Highly configurable
 
 ## Installation
 
 ```bash
-npm install -g ai-commits-cli
+npm install -g @rocktimsaikia/aicommits
 ```
 
-## Setup & Usage
+## Usage
 
 > [!IMPORTANT]
 > You'll need an OpenAI API key to use AICommits. You can get one from [OpenAI's website](https://platform.openai.com/account/api-keys).
@@ -41,7 +39,7 @@ aicommits
 aic
 ```
 
-Select your preferred message, and AICommits automatically creates a commit with the selected message and copies it to your clipboard.
+Note: The selected message is automatically copied to clipboard.
 
 ## Command Options
 
