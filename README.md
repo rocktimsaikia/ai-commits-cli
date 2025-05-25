@@ -43,10 +43,10 @@ Options:
   -g, --generate <number>  Number of messages to generate (1-5)
   -x, --exclude <files>    Files to exclude from AI analysis
   -a, --all                Automatically stage changes in tracked files
-  -t, --type <type>        Type of commit message to generate
+  -t, --type <type>        Type of commit message to generate (conventional or empty)
   -b, --branch-prefix      Use current branch name as commit message prefix (auto-detects Jira/Linear IDs)
-  --help                   Show help
-  --version                Show version
+  --help                   Show this help message
+  --version                Show version number
 ```
 
 ## Configuration
