@@ -1,24 +1,27 @@
 {
 	"name": "ai-commits-cli",
 	"version": "0.0.0",
-	"description": "Writes your git commit messages for you with AI",
+	"description": "Generate commits with AI in terminal",
 	"keywords": ["ai", "git", "commit", "openai"],
-	"license": "MIT",
 	"repository": "rocktimsaikia/ai-commits-cli",
+	"license": "MIT",
 	"author": "Rocktim Saikia",
 	"type": "module",
-	"files": ["dist"],
 	"bin": {
 		"ai-commits": "./dist/cli.js",
 		"aic": "./dist/cli.js"
 	},
+	"files": ["dist"],
 	"scripts": {
 		"build": "tsup",
-		"lint": "biome lint .",
-		"format": "biome format --write .",
-		"type-check": "tsc",
 		"dev": "tsx src/cli.ts",
-		"prepack": "pnpm build && clean-pkg-json"
+		"format": "biome format --write .",
+		"lint": "biome lint .",
+		"prepack": "pnpm build && clean-pkg-json",
+		"type-check": "tsc"
+	},
+	"release": {
+		"branches": ["main"]
 	},
 	"dependencies": {
 		"@clack/prompts": "^0.6.1",
@@ -41,9 +44,6 @@
 	},
 	"engines": {
 		"node": ">=18"
-	},
-	"release": {
-		"branches": ["main"]
 	},
 	"tsup": {
 		"entry": ["src/cli.ts"],
