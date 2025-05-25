@@ -13,7 +13,7 @@
 	"author": "Rocktim Saikia",
 	"type": "module",
 	"bin": {
-		"ai-commits": "./dist/cli.js",
+		"aicommits": "./dist/cli.js",
 		"aic": "./dist/cli.js"
 	},
 	"files": [
