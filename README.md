@@ -36,6 +36,8 @@ aicommits config set OPENAI_KEY=your-api-key
 git add .
 
 # 3. Generate a commit message:
+aicommits
+# or use the shorthand (Recommended for quick usage)
 aic
 ```
 
@@ -43,7 +45,7 @@ Select your preferred message, and AICommits automatically creates a commit with
 
 ## Command Options
 
-```
+```bash
 Options:
   -g, --generate <number>  Number of messages to generate (1-5)
   -x, --exclude <files>    Files to exclude from AI analysis
