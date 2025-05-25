@@ -5,13 +5,10 @@
 > AI-powered git commit message generator in your terminal.
 
 ## Features
+This project was inspired by [@Nutlope/aicommits](https://github.com/Nutlope/aicommits). I have done some heavy refactoring to make less bloated and to keep use it only as a CLI tool. Below I will only list the unique features that are added to the project that was not present in the original project.
 
-— AI-generated commit messages based on your code changes \
-— Automatically copies the selected commit message to clipboard \
-— Generate multiple commit message options \
-— Support for conventional commit format \
-— Smart branch name prefixing (extracts Jira/Linear IDs) \
-— Highly configurable
+- 📋 Automatically copies the selected commit message to clipboard
+- 🔖 Smart branch name prefixing (extracts Jira/Linear IDs)
 
 ## Installation
 
@@ -38,8 +35,6 @@ aicommits
 # or use the shorthand (Recommended for quick usage)
 aic
 ```
-
-Note: The selected message is automatically copied to clipboard.
 
 ## Command Options
 
