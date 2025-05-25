@@ -1,6 +1,6 @@
 {
 	"name": "@rocktimsaikia/aicommits",
-	"version": "1.0.0",
+	"version": "0.0.0",
 	"description": "Generate commits with AI in terminal",
 	"keywords": [
 		"ai",
