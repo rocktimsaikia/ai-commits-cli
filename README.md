@@ -1,6 +1,6 @@
 # AICommits
 
-[![NPM Version](https://img.shields.io/npm/v/ai-commits-cli)](https://www.npmjs.com/package/ai-commits-cli)
+[![NPM Version](https://img.shields.io/npm/v/@rocktimsaikia/aicommits?color=brightgreen)](https://www.npmjs.com/package/@rocktimsaikia/aicommits)
 
 > AI-powered git commit message generator in your terminal.
 
