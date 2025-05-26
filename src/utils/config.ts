@@ -18,6 +18,7 @@ const DEFAULT_CONFIG = {
 	"max-length": 50,
 	type: "" as CommitType,
 	"use-branch-prefix": false,
+	"capitalize-message": false,
 };
 
 /**
@@ -150,6 +151,31 @@ const configParsers = {
 		// This won't be reached due to the assert above, but TypeScript needs it
 		return DEFAULT_CONFIG["use-branch-prefix"];
 	},
+
+	"capitalize-message"(value?: string) {
+		// If no value is provided, return default
+		if (value === undefined || value === null || value === "") {
+			return DEFAULT_CONFIG["capitalize-message"];
+		}
+
+		// Handle common string representations of boolean values
+		const lowerValue = String(value).toLowerCase().trim();
+
+		// Accept various forms of true/false values
+		if (["true", "1", "yes", "y", "on"].includes(lowerValue)) {
+			return true;
+		}
+
+		if (["false", "0", "no", "n", "off"].includes(lowerValue)) {
+			return false;
+		}
+
+		// If we get here, it's an invalid value
+		parseAssert("capitalize-message", false, "Must be either 'true' or 'false'");
+
+		// This won't be reached due to the assert above, but TypeScript needs it
+		return DEFAULT_CONFIG["capitalize-message"];
+	},
 } as const;
 
 // Type definitions for configuration
@@ -194,16 +220,18 @@ const readConfigFile = async (): Promise<RawConfig> => {
 		const configString = await fs.readFile(configPath, "utf8");
 		const parsed = ini.parse(configString);
 
-		// Direct fix: Check if use-branch-prefix is in the config file
-		// and ensure it's properly parsed as a boolean
-		if (parsed["use-branch-prefix"] !== undefined) {
-			const value = String(parsed["use-branch-prefix"])
-				.toLowerCase()
-				.trim();
+		// Process boolean config properties to ensure they're properly parsed
+		const booleanProps = ["use-branch-prefix", "capitalize-message"];
+		for (const prop of booleanProps) {
+			if (parsed[prop] !== undefined) {
+				const value = String(parsed[prop])
+					.toLowerCase()
+					.trim();
 
-			// Convert to proper boolean
-			if (["true", "1", "yes", "y", "on"].includes(value)) {
-				parsed["use-branch-prefix"] = "true";
+				// Convert to proper boolean
+				if (["true", "1", "yes", "y", "on"].includes(value)) {
+					parsed[prop] = "true";
+				}
 			}
 		}
 
@@ -227,10 +255,13 @@ export const getConfig = async (
 	for (const key of Object.keys(configParsers) as ConfigKeys[]) {
 		const parser = configParsers[key];
 
-		// Special handling for use-branch-prefix
-		// If it's explicitly set in the file config, it should take precedence
+		// Special handling for boolean config properties
+		// If they're explicitly set in the file config, they should take precedence
 		let value: string | undefined;
-		if (key === "use-branch-prefix" && config[key] === "true") {
+		if (
+			(key === "use-branch-prefix" || key === "capitalize-message") &&
+			config[key] === "true"
+		) {
 			value = config[key];
 		} else {
 			value = cliConfig?.[key] ?? config[key];

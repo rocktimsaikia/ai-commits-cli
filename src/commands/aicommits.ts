@@ -21,6 +21,7 @@ type AicommitsOptions = {
 	stageAll: boolean;
 	commitType?: string;
 	useBranchPrefix?: boolean;
+	capitalizeMessage?: boolean;
 	debug?: boolean;
 	rawArgv: string[];
 };
@@ -69,7 +70,10 @@ async function getStagedChanges(
  * Load configuration and environment variables
  */
 async function loadConfig(
-	options: Pick<AicommitsOptions, "generate" | "commitType" | "useBranchPrefix">,
+	options: Pick<
+		AicommitsOptions,
+		"generate" | "commitType" | "useBranchPrefix" | "capitalizeMessage"
+	>,
 ): Promise<ReturnType<typeof getConfig>> {
 	const { env } = process;
 
@@ -80,6 +84,10 @@ async function loadConfig(
 		type: options.commitType?.toString(),
 		"use-branch-prefix":
 			options.useBranchPrefix !== undefined ? String(options.useBranchPrefix) : undefined,
+		"capitalize-message":
+			options.capitalizeMessage !== undefined
+				? String(options.capitalizeMessage)
+				: undefined,
 	});
 }
 
@@ -103,6 +111,7 @@ async function generateMessages(
 			config["max-length"],
 			config.type,
 			config.timeout,
+			config,
 			config.proxy,
 		);
 
@@ -250,6 +259,7 @@ async function aicommitsHandler({
 	stageAll,
 	commitType,
 	useBranchPrefix,
+	capitalizeMessage,
 	debug,
 	rawArgv,
 }: AicommitsOptions): Promise<void> {
@@ -269,19 +279,30 @@ async function aicommitsHandler({
 		const staged = await getStagedChanges(excludeFiles);
 
 		// Load configuration
-		const config = await loadConfig({ generate, commitType, useBranchPrefix });
+		const config = await loadConfig({
+			generate,
+			commitType,
+			useBranchPrefix,
+			capitalizeMessage,
+		});
 
 		// Only show debug information if explicitly enabled
 		if (debug) {
 			console.log("\n--- CONFIG DEBUG INFO ---");
 			console.log("Configuration:", config);
 			console.log("Branch prefix enabled:", Boolean(config["use-branch-prefix"]));
+			console.log("Capitalize message enabled:", Boolean(config["capitalize-message"]));
 			console.log("-------------------------\n");
 		}
 
 		// IMPORTANT: Check if branch prefix is enabled in config file directly
 		if (useBranchPrefix || config["use-branch-prefix"]) {
 			config["use-branch-prefix"] = true;
+		}
+
+		// Check if capitalize message is enabled in config file directly
+		if (capitalizeMessage || config["capitalize-message"]) {
+			config["capitalize-message"] = true;
 		}
 
 		// Generate commit messages
@@ -324,6 +345,7 @@ const aicommits = async (
 	stageAll: boolean,
 	commitType: string | undefined,
 	useBranchPrefix: boolean | undefined,
+	capitalizeMessage: boolean | undefined,
 	debug: boolean | undefined,
 	rawArgv: string[],
 ): Promise<void> =>
@@ -333,6 +355,7 @@ const aicommits = async (
 		stageAll,
 		commitType,
 		useBranchPrefix,
+		capitalizeMessage,
 		debug,
 		rawArgv,
 	});

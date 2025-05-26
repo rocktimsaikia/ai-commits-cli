@@ -1,4 +1,4 @@
-import type { CommitType } from "./config.js";
+import type { CommitType, ValidConfig } from "./config.js";
 
 const commitTypeFormats: Record<CommitType, string> = {
 	"": "<commit message>",
@@ -38,13 +38,20 @@ const commitTypes: Record<CommitType, string> = {
 	)}`,
 };
 
-export const generatePrompt = (locale: string, maxLength: number, type: CommitType) =>
+export const generatePrompt = (
+	locale: string,
+	maxLength: number,
+	type: CommitType,
+	config: ValidConfig,
+) =>
 	[
 		"Generate a concise git commit message written in present tense for the following code diff with the given specifications below:",
 		`Message language: ${locale}`,
-		`Commit message must be in imperative, present tense.`,
-		`Don't capitalize the first letter of the commit message.`,
-		`Don't end the commit message with a period.`,
+		"Commit message must be in imperative, present tense.",
+		config["capitalize-message"]
+			? "Capitalize the first letter of the commit message, but the rest should be lowercase."
+			: "Don't capitalize the first letter of the commit message.",
+		"Don't end the commit message with a period.",
 		`Commit message must be a maximum of ${maxLength} characters.`,
 		"Exclude anything unnecessary such as translation. Your entire response will be passed directly into git commit.",
 		commitTypes[type],

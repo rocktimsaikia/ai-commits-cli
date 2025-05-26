@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from "openai";
 import type { TiktokenModel } from "@dqbd/tiktoken";
-import type { CommitType } from "./config.js";
+import type { CommitType, ValidConfig } from "./config.js";
 import { KnownError } from "./error.js";
 import { generatePrompt } from "./prompt.js";
 
@@ -59,6 +59,7 @@ export const generateCommitMessage = async (
 	maxLength: number,
 	type: CommitType,
 	timeout: number,
+	config: ValidConfig,
 	proxy?: string,
 ): Promise<string[]> => {
 	try {
@@ -70,7 +71,7 @@ export const generateCommitMessage = async (
 				messages: [
 					{
 						role: "system",
-						content: generatePrompt(locale, maxLength, type),
+						content: generatePrompt(locale, maxLength, type, config),
 					},
 					{
 						role: "user",

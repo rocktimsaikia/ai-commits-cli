@@ -1,19 +1,8 @@
 #!/usr/bin/env node
-/**
- * Main CLI entry point for aicommits
- *
- * This tool uses AI to generate commit messages based on your staged changes.
- */
 import { cli } from "cleye";
-import fs from "node:fs";
-import path from "node:path";
 import aicommits from "./commands/aicommits.js";
 import configCommand from "./commands/config.js";
-
-// Read package.json dynamically to avoid TypeScript import issues
-const pkgPath = path.resolve(process.cwd(), "package.json");
-const pkgContent = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
-const { description, version } = pkgContent;
+import pkg from "../package.json";
 
 // Get raw arguments for passing to git commit
 const rawArgv = process.argv.slice(2);
@@ -22,7 +11,7 @@ const rawArgv = process.argv.slice(2);
 cli(
 	{
 		name: "aicommits",
-		version,
+		version: pkg.version,
 
 		/**
 		 * Since this is a wrapper around `git commit`,
@@ -58,6 +47,12 @@ cli(
 				alias: "b",
 				default: false,
 			},
+			"capitalize-message": {
+				type: Boolean,
+				description: "Capitalize the first letter of the commit message",
+				alias: "c",
+				default: false,
+			},
 			debug: {
 				type: Boolean,
 				description: "Show debug information",
@@ -68,7 +63,7 @@ cli(
 		commands: [configCommand],
 
 		help: {
-			description,
+			description: pkg.description,
 		},
 
 		// Ignore unknown flags and arguments (pass them to git commit)
@@ -85,6 +80,8 @@ cli(
 			argv.flags.type,
 			// Set use-branch-prefix config if branch-prefix flag is provided
 			argv.flags["branch-prefix"],
+			// Set capitalize-message config if capitalize-message flag is provided
+			argv.flags["capitalize-message"],
 			// Pass debug flag
 			argv.flags.debug,
 			rawArgv,
