@@ -25,7 +25,8 @@
 		"format": "biome format --write .",
 		"lint": "biome lint .",
 		"prepack": "pnpm build",
-		"type-check": "tsc"
+		"type-check": "tsc",
+		"test": "echo \"Error: no test specified\" && exit 0"
 	},
 	"release": {
 		"branches": [
