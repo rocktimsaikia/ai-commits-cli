@@ -8,7 +8,8 @@
 Originally a fork of [@Nutlope/aicommits](https://github.com/Nutlope/aicommits), this project underwent major refactoring to reduce bloat and focus solely on CLI functionality. Below are the unique features added, not present in the original project.
 
 - 📋 Automatically copies the selected commit message to clipboard
-- 🔖 Smart branch name prefixing (extracts Jira/Linear IDs)
+- 🔖 Smart branch name prefixing. Extracts Jira/Linear IDs. (Optional)
+- 📝 Smart commit message capitalization (Optional)
 
 ## Installation
 
@@ -45,6 +46,7 @@ Options:
   -a, --all                Automatically stage changes in tracked files
   -t, --type <type>        Type of commit message to generate (conventional or empty)
   -b, --branch-prefix      Use current branch name as commit message prefix (auto-detects Jira/Linear IDs)
+  -c, --capitalize-message Capitalize the first letter of the commit message
   --help                   Show this help message
   --version                Show version number
 ```
@@ -72,6 +74,9 @@ aicommits config set type=conventional
 # Use branch name as commit message prefix (default: false)
 # Automatically extracts Jira/Linear IDs from branch name and uses them as prefix.
 aicommits config set use-branch-prefix=true
+
+# Capitalize the first letter of the commit message (default: false)
+aicommits config set capitalize-message=true
 
 # Set the timeout for API requests in milliseconds (default: 10000)
 aicommits config set timeout=10000
