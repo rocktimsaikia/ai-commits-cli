@@ -23,6 +23,7 @@ type AicommitsOptions = {
 	useBranchPrefix?: boolean;
 	capitalizeMessage?: boolean;
 	debug?: boolean;
+	noVerify?: boolean;
 	rawArgv: string[];
 };
 
@@ -219,6 +220,7 @@ async function createCommit(
 	message: string,
 	rawArgv: string[],
 	useBranchPrefix: boolean,
+	noVerify: boolean,
 	debug?: boolean,
 ): Promise<void> {
 	// The message may already have the branch prefix applied
@@ -237,7 +239,13 @@ async function createCommit(
 		console.error("Failed to copy to clipboard:", error);
 	}
 
-	await execa("git", ["commit", "-n", "-m", finalMessage, ...rawArgv]);
+	const commitArgs = ["commit"];
+	if (noVerify) {
+		commitArgs.push("-n");
+	}
+	commitArgs.push("-m", finalMessage, ...rawArgv);
+
+	await execa("git", commitArgs);
 
 	if (clipboardSuccess) {
 		outro(
@@ -261,6 +269,7 @@ async function aicommitsHandler({
 	useBranchPrefix,
 	capitalizeMessage,
 	debug,
+	noVerify,
 	rawArgv,
 }: AicommitsOptions): Promise<void> {
 	try {
@@ -327,7 +336,7 @@ async function aicommitsHandler({
 		}
 
 		// Create the commit (don't apply branch prefix again since it's already applied)
-		await createCommit(selectedMessage, rawArgv, false, debug);
+		await createCommit(selectedMessage, rawArgv, false, noVerify ?? false, debug);
 	} catch (error) {
 		const err = error instanceof Error ? error : new Error(String(error));
 		outro(`${red("✖")} ${err.message}`);
@@ -347,6 +356,7 @@ const aicommits = async (
 	useBranchPrefix: boolean | undefined,
 	capitalizeMessage: boolean | undefined,
 	debug: boolean | undefined,
+	noVerify: boolean | undefined,
 	rawArgv: string[],
 ): Promise<void> =>
 	aicommitsHandler({
@@ -357,6 +367,7 @@ const aicommits = async (
 		useBranchPrefix,
 		capitalizeMessage,
 		debug,
+		noVerify,
 		rawArgv,
 	});
 

@@ -58,6 +58,11 @@ cli(
 				description: "Show debug information",
 				default: false,
 			},
+			"no-verify": {
+				type: Boolean,
+				description: "Skip pre-commit hooks",
+				default: false,
+			},
 		},
 
 		commands: [configCommand],
@@ -84,6 +89,8 @@ cli(
 			argv.flags["capitalize-message"],
 			// Pass debug flag
 			argv.flags.debug,
+			// Pass no-verify flag
+			argv.flags["no-verify"],
 			rawArgv,
 		);
 	},

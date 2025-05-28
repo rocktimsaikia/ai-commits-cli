@@ -47,6 +47,7 @@ Options:
   -t, --type <type>        Type of commit message to generate (conventional or empty)
   -b, --branch-prefix      Use current branch name as commit message prefix (auto-detects Jira/Linear IDs)
   -c, --capitalize-message Capitalize the first letter of the commit message
+  --no-verify              Skip pre-commit hooks
   --help                   Show this help message
   --version                Show version number
 ```
