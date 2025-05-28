@@ -1,10 +1,5 @@
 import { dim } from "kolorist";
-import fs from "node:fs";
-import path from "node:path";
-
-// Read version from package.json
-const pkgPath = path.resolve(process.cwd(), "package.json");
-const { version } = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
+import pkg from "../../package.json";
 
 /**
  * Custom error class for known errors that should be displayed to the user
@@ -28,7 +23,7 @@ export const handleCliError = (error: Error) => {
 		}
 
 		// Show version and issue reporting info
-		console.error(`\n${indent}${dim(`aicommits v${version}`)}`);
+		console.error(`\n${indent}${dim(`aicommits v${pkg.version}`)}`);
 		console.error(`\n${indent}Please report this issue with the information above.`);
 	}
 };
